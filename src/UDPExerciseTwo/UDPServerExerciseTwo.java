@@ -1,6 +1,7 @@
 package UDPExerciseTwo;
 
-import java.net.*;
+import java.net.ServerSocket;
+import java.net.Socket;
 
 public class UDPServerExerciseTwo {
     public static void main(String[] args) throws Exception {

@@ -13,12 +13,10 @@ public class UDPServerExerciseOne {
     {
         DatagramSocket serverSocket = new DatagramSocket(9876);
 
-        byte[] r1 = new byte[1];
         byte[] s1 = new byte[1];
+        byte[] r1 = new byte[1];
         byte[] r2 = new byte[1];
         byte[] r3 = new byte[1];
-        byte[] s2 = new byte[1];
-        byte[] s3 = new byte[1];
 
         while(true)
         {
@@ -33,7 +31,7 @@ public class UDPServerExerciseOne {
             //pega os dados
             String v1 = new String(recebe1.getData());
             String v2 = new String(recebe2.getData());
-            String v3 = new String(recebe2.getData());
+            String v3 = new String(recebe3.getData());
 
             //conversão
             int port = recebe1.getPort();

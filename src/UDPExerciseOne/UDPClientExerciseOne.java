@@ -24,11 +24,14 @@ public class UDPClientExerciseOne {
             byte[] envio3 = new byte[10];
 
             String num1, num2, operacao;
-            System.out.println("Operacao:\n1 - Soma\n2 - Multiplicacao\n3 - Divisao\n");
+            System.out.print("Operacao:\n1 - Soma\n2 - Multiplicacao\n3 - Divisao\n>>> ");
             operacao = entrada.readLine();
-            System.out.println("valor 1:");
+            System.out.println("[Apenas de 1-9] Valor 1:");
+            System.out.print(">>> ");
+
             num1 = entrada.readLine();
-            System.out.println("valor2 :");
+            System.out.println("[Apenas de 1-9] valor 2:");
+            System.out.print(">>> ");
             num2 = entrada.readLine();
 
             envio1 = num1.getBytes();

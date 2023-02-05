@@ -30,8 +30,8 @@ class UDPServerClientThreadExerciseTwo extends Thread {
             inStream.close();
             outStream.close();
             serverClient.close();
-        } catch (Exception ex) {
-            System.out.println(ex);
+        } catch (Exception e) {
+            e.printStackTrace();
         } finally {
             System.out.println("Client -" + clientNo + " exit!! ");
         }
