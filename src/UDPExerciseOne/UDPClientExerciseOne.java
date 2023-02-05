@@ -1,68 +1,62 @@
 package UDPExerciseOne;
 
+import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.InputStreamReader;
 import java.net.DatagramPacket;
 import java.net.DatagramSocket;
 import java.net.InetAddress;
+import java.net.SocketException;
+import java.net.UnknownHostException;
 
 public class UDPClientExerciseOne {
 
-    public static int Sum(int a, int b){
-        return a + b;
-    }
-
-    public static int Multiply(int a, int b){
-        return a * b;
-    }
-
-    public static int Divide(int a, int b){
-        int result = -1;
-
-        try {
-            result = a / b;
-        } catch (ArithmeticException e){
-            System.out.println ("Can't be divided by Zero " + e);
-        }
-
-        return result;
-    }
-
-    public static void main(String[] args) {
-        DatagramSocket aSocket = null;
+    public static void main(String args[]) throws Exception
+    {
+        BufferedReader entrada = new BufferedReader(new InputStreamReader(System.in));
+        DatagramSocket clientSocket = new DatagramSocket();
+        InetAddress ip = InetAddress.getByName("localhost");
 
         try{
-            aSocket = new DatagramSocket();
-            InetAddress aHost = InetAddress.getByName(args[0]);
 
-            String action = args[1];
+            byte[] envio1 = new byte[10];
+            byte[] envio2 = new byte[10];
+            byte[] envio3 = new byte[10];
 
-            int firstNumber = Integer.parseInt(args[2]);
-            int secondNumber = Integer.parseInt(args[3]);
+            String num1, num2, operacao;
+            System.out.println("Operacao:\n1 - Soma\n2 - Multiplicacao\n3 - Divisao\n");
+            operacao = entrada.readLine();
+            System.out.println("valor 1:");
+            num1 = entrada.readLine();
+            System.out.println("valor2 :");
+            num2 = entrada.readLine();
 
-            int toReturn = switch (action) {
-                case "Sum" -> Sum(firstNumber, secondNumber);
-                case "Multiply" -> Multiply(firstNumber, secondNumber);
-                case "Divide" -> Divide(firstNumber, secondNumber);
-                default -> -1;
-            };
+            envio1 = num1.getBytes();
+            envio2 = num2.getBytes();
+            envio3 = operacao.getBytes();
 
-            byte[] m = Integer.toString(toReturn).getBytes();
-
-            int serverPort = 6789;
-
-            DatagramPacket request = new DatagramPacket(m, m.length, aHost, serverPort);
-            aSocket.send(request);
+            DatagramPacket envioPacket1 = new DatagramPacket(envio1,envio1.length,ip,9876);
+            clientSocket.send(envioPacket1);
+            DatagramPacket envioPacket2 = new DatagramPacket(envio2,envio2.length,ip,9876);
+            clientSocket.send(envioPacket2);
+            DatagramPacket envioPacket3 = new DatagramPacket(envio3,envio3.length,ip,9876);
+            clientSocket.send(envioPacket3);
 
             byte[] buffer = new byte[13];
+            DatagramPacket resultado = new DatagramPacket(buffer, buffer.length);
+            clientSocket.receive(resultado);
+            System.out.println("Resultado: "+new String(resultado.getData()));
 
-            DatagramPacket reply = new DatagramPacket(buffer, buffer.length);
-            aSocket.receive(reply);
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        } finally {
-            if (aSocket != null){
-                aSocket.close();
+        } catch (SocketException e) {
+            e.printStackTrace();
+        } catch (UnknownHostException e){
+            e.printStackTrace();
+        } catch (IOException e){
+            e.printStackTrace();
+        }finally{
+            if(clientSocket!=null){
+                clientSocket.close();
             }
-        }
-    }
-}
+        }//fechando o try
+    }//fechando a main
+}//fechando a classe
